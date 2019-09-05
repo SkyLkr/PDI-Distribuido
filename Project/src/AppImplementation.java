@@ -22,11 +22,15 @@ public class AppImplementation implements AppInterface, Serializable {
     public byte[] applyFilter(byte[] img) throws RemoteException {
         byte[] filterImg = null;
         try {
+
+            System.out.println("Recebendo imagem");
+
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(img));
 
             int height = bufferedImage.getHeight();
             int width = bufferedImage.getWidth();
-
+            
+            System.out.println("Convertendo para tons de cinza");
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     Color c = new Color(bufferedImage.getRGB(j, i));
@@ -43,12 +47,14 @@ public class AppImplementation implements AppInterface, Serializable {
                 }
             }
 
+            System.out.println("Imagem convertida");
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "jpg", output);
 
             filterImg = output.toByteArray();
 
             long time = System.currentTimeMillis();
+            System.out.println("Salvando Imagem na base de dados com o código " + time);
             data.saveImage(img, Long.toString(time) + "_normal.jpg");
             data.saveImage(filterImg, Long.toString(time) + "_filter.jpg");
 
