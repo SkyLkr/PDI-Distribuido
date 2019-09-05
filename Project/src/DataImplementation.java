@@ -20,7 +20,8 @@ public class DataImplementation implements DataInterface, Serializable {
         try {
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(image));
             
-            File f = new File(filename);
+            File f = new File("images/" + filename);
+            f.mkdirs();
             ImageIO.write(bufferedImage, "png", f);
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -47,11 +48,9 @@ public class AppImplementation implements AppInterface, Serializable {
 
             filterImg = output.toByteArray();
 
-            // DataInterface data = (DataInterface) Naming.lookup("rmi://localhost/DataServer");
-
-            // long time = System.currentTimeMillis();
-            // data.saveImage(img, String.format("%ld_normal.jpg", time));
-            // data.saveImage(filterImg, String.format("%ld_gray.jpg", time));
+            long time = System.currentTimeMillis();
+            data.saveImage(img, Long.toString(time) + "_normal.jpg");
+            data.saveImage(filterImg, Long.toString(time) + "_filter.jpg");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,6 +61,16 @@ public class AppImplementation implements AppInterface, Serializable {
     @Override
     public String test(String msg) throws RemoteException {
         return "Server: " + msg;
+    }
+
+    private DataInterface data;
+
+    public AppImplementation() {
+        try {
+            data = (DataInterface) Naming.lookup("rmi://localhost/DataServer");
+        } catch (MalformedURLException | RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
