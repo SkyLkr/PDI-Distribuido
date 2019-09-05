@@ -13,7 +13,7 @@ public class DataImplementation implements DataInterface, Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 8632407210570493993L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void saveImage(byte[] image, String filename) throws RemoteException {

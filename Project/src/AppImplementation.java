@@ -1,0 +1,67 @@
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+import javax.imageio.ImageIO;
+
+public class AppImplementation implements AppInterface, Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8199114052752054623L;
+
+    @Override
+    public byte[] applyFilter(byte[] img) throws RemoteException {
+        byte[] filterImg = null;
+        try {
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(img));
+
+            int height = bufferedImage.getHeight();
+            int width = bufferedImage.getWidth();
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    Color c = new Color(bufferedImage.getRGB(j, i));
+
+                    int red = (int) (c.getRed() * 0.2125);
+                    int green = (int) (c.getGreen() * 0.7154);
+                    int blue = (int) (c.getBlue() * 0.0721);
+
+                    int gray = red + green + blue;
+
+                    Color newColor = new Color(gray, gray, gray);
+
+                    bufferedImage.setRGB(j, i, newColor.getRGB());
+                }
+            }
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", output);
+
+            filterImg = output.toByteArray();
+
+            // DataInterface data = (DataInterface) Naming.lookup("rmi://localhost/DataServer");
+
+            // long time = System.currentTimeMillis();
+            // data.saveImage(img, String.format("%ld_normal.jpg", time));
+            // data.saveImage(filterImg, String.format("%ld_gray.jpg", time));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filterImg;
+    }
+
+    @Override
+    public String test(String msg) throws RemoteException {
+        return "Server: " + msg;
+    }
+
+}
