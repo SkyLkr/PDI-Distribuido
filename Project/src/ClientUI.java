@@ -230,7 +230,7 @@ public class ClientUI extends javax.swing.JFrame {
                  */
 
                 try {
-                        if (appServer == null) appServer = (AppInterface) Naming.lookup("rmi://localhost/AppServer");
+                        if (appServer == null) appServer = (AppInterface) Naming.lookup("rmi://192.168.43.125/AppServer");
                 } catch (MalformedURLException | RemoteException | NotBoundException e) {
                         e.printStackTrace();
                 }

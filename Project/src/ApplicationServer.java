@@ -5,7 +5,7 @@ public class ApplicationServer {
     public ApplicationServer() {
         try {
             AppInterface app = new AppImplementation();
-            Naming.rebind("//localhost/AppServer", (Remote) app);
+            Naming.rebind("//192.168.43.125/AppServer", (Remote) app);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

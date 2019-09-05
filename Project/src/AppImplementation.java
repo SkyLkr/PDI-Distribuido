@@ -73,7 +73,7 @@ public class AppImplementation implements AppInterface, Serializable {
 
     public AppImplementation() {
         try {
-            data = (DataInterface) Naming.lookup("rmi://localhost/DataServer");
+            data = (DataInterface) Naming.lookup("rmi://192.168.43.125/DataServer");
         } catch (MalformedURLException | RemoteException | NotBoundException e) {
             e.printStackTrace();
         }
